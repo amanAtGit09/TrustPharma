@@ -6,7 +6,7 @@ TrustPharma is a Web3 supply chain verification system designed to eliminate pha
 
 ## Architecture Overview
 
-![System Architecture](assets\bt-sys-arch.drawio.png)
+![TrustPharma System Architecture](assets/bt-sys-arch.drawio.png)
 
 The system operates across three primary layers:
 1. **Client Tier:** Role-specific web dashboards (Manufacturer, Supply Chain, Consumer) built with React.js, Vite, Tailwind CSS, and Ethers.js.
