@@ -1,122 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React, { useState } from "react";
+import { Web3Provider } from "./context/Web3Context";
+import { Navbar } from "./components/common/Navbar";
+import { ManufacturerView } from "./views/ManufacturerView";
+import { DistributorView } from "./views/DistributorView";
+import { PharmacyView } from "./views/PharmacyView";
+import { ConsumerView } from "./views/ConsumerView";
+import { ExplorerView } from "./views/ExplorerView";
+import { AdminView } from "./views/AdminView"; // <-- Import AdminView
 
-function App() {
-  const [count, setCount] = useState(0)
+const MainContent = () => {
+  const [activeTab, setActiveTab] = useState("admin");
+
+  const [prefillUnitId, setPrefillUnitId] = useState("");
+  const [prefillPin, setPrefillPin] = useState("");
+
+  const handleSelectUnitForVerify = (unitId, pin = "") => {
+    setPrefillUnitId(unitId);
+    setPrefillPin(pin);
+    setActiveTab("consumer");
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col justify-between">
+      <div>
+        <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="ticks"></div>
+        <main className="pb-12">
+          {activeTab === "consumer" && (
+            <ConsumerView prefillUnitId={prefillUnitId} prefillPin={prefillPin} />
+          )}
+          {activeTab === "pharmacy" && (
+            <PharmacyView onSelectUnitForVerify={handleSelectUnitForVerify} />
+          )}
+          {activeTab === "distributor" && (
+            <DistributorView onSelectUnitForVerify={handleSelectUnitForVerify} />
+          )}
+          {activeTab === "manufacturer" && (
+            <ManufacturerView onSelectUnitForVerify={handleSelectUnitForVerify} />
+          )}
+          {activeTab === "explorer" && <ExplorerView />}
+          {activeTab === "admin" && <AdminView />} {/* <-- Dedicated View */}
+        </main>
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <footer className="border-t border-gray-200 bg-white py-4 text-center text-xs text-gray-400">
+        TrustPharma Anti-Counterfeit Verification Protocol • Running on Hardhat Localhost (31337)
+      </footer>
+    </div>
+  );
+};
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+export default function App() {
+  return (
+    <Web3Provider>
+      <MainContent />
+    </Web3Provider>
+  );
 }
-
-export default App
