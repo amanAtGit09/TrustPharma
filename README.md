@@ -1,5 +1,4 @@
 # TrustPharma: Decentralized Drug Authenticity & Anti-Counterfeit Network
-Note: Work in Progress!!!!!
 
 TrustPharma is a Web3 supply chain verification system designed to eliminate pharmaceutical counterfeiting, supply diversion, and the distribution of expired medicines. By pairing cryptographic commit-reveal scratch-off secrets with an immutable state machine, TrustPharma guarantees single-use physical box verification and instant global recalls.
 
